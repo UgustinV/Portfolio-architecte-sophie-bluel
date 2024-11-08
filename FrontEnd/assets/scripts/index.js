@@ -22,9 +22,7 @@ const setFilters = async () => {
     const filtersList = document.createElement("ul");
     const filter = document.createElement("li");
     filter.textContent = "Tous";
-    filter.className = "filter";
-    filter.style.backgroundColor = "#1D6154";
-    filter.style.color = "white";
+    filter.classList.add("filter", "active-filter");
     filter.id = "0"
     filtersList.appendChild(filter);
     categories.forEach(category => {
@@ -55,12 +53,10 @@ const changeFilter = async (type) => {
     });
     Array.from(filters).forEach(filter => {
         if(filter.id === type){
-            filter.style.backgroundColor = "#1D6154";
-            filter.style.color = "white";
+            filter.classList.add("active-filter");
         }
         else{
-            filter.style.backgroundColor = "white";
-            filter.style.color = "#1D6154";
+            filter.classList.remove("active-filter");
         }
     });
 }

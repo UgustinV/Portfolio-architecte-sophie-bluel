@@ -150,6 +150,12 @@ li:hover {
 	padding: 9px 20px;
 }
 
+.active-filter{
+	background-color: #1D6154;
+	color: white;
+	cursor: pointer;
+}
+
 .filter:hover{
 	background-color: #1D6154;
 	color: white;
