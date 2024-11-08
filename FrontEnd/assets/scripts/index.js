@@ -1,4 +1,4 @@
-import getWorks from "./getWorks.js";
+import { getWorks, getCat } from "./comAPI.js";
 
 const setWorks = async () => {
     const works = await getWorks();
@@ -10,10 +10,60 @@ const setWorks = async () => {
         image.src = element.imageUrl;
         image.alt = element.title;
         caption.textContent = element.title;
-        work.appendChild(image);
-        work.appendChild(caption)
-        gallery.appendChild(work)
+        work.append(image, caption);
+        work.setAttribute("category", element.category.id)
+        gallery.appendChild(work);
+    });
+}
+
+const setFilters = async () => {
+    const categories = await getCat();
+    const filters = document.getElementById("filters");
+    const filtersList = document.createElement("ul");
+    const filter = document.createElement("li");
+    filter.textContent = "Tous";
+    filter.className = "filter";
+    filter.style.backgroundColor = "#1D6154";
+    filter.style.color = "white";
+    filter.id = "0"
+    filtersList.appendChild(filter);
+    categories.forEach(category => {
+        const filter = document.createElement("li");
+        filter.textContent = category.name;
+        filter.className = "filter";
+        filter.id = category.id;
+        filtersList.appendChild(filter);
+    });
+    filters.appendChild(filtersList);
+    const filterList = document.getElementsByClassName("filter");
+    Array.from(filterList).forEach(filter => {
+        filter.addEventListener("click", () => changeFilter(filter.id));
+    });
+}
+
+const changeFilter = async (type) => {
+    const filters = document.getElementsByClassName("filter");
+    const gallery = document.getElementById("gallery");
+    const works = gallery.children;
+    Array.from(works).forEach(work => {
+        if(type !== "0" && work.getAttribute("category") !== type){
+            work.style.display = "none";
+        }
+        else{
+            work.style.display = "";
+        }
+    });
+    Array.from(filters).forEach(filter => {
+        if(filter.id === type){
+            filter.style.backgroundColor = "#1D6154";
+            filter.style.color = "white";
+        }
+        else{
+            filter.style.backgroundColor = "white";
+            filter.style.color = "#1D6154";
+        }
     });
 }
 
 setWorks();
+setFilters();
