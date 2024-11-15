@@ -7,6 +7,9 @@ export const getWorks = async () => {
     .then(response => response.json())
     .then(data => {
         return data;
+    })
+    .catch(error => {
+        console.error('Failed to fetch works : ', error);
     });
 }
 
@@ -19,6 +22,9 @@ export const getCat = async () => {
     .then(response => response.json())
     .then(data => {
         return data;
+    })
+    .catch(error => {
+        console.error('Failed to fetch category : ', error);
     });
 }
 
