@@ -16,15 +16,15 @@
             <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
             <nav>
                 <ul>
-                    <li><a href="./index.html" class="link">projets</a></li>
-                    <li>contact</li>
-                    <li><a href="./login.html" class="link">login</a></li>
-                    <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+                    <li><a href="./index.html">projets</a></li>
+                    <li><a href="#">contact</a></li>
+                    <li><a href="#">login</a></li>
+                    <li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
                 </ul>
             </nav>
         </header>
         <main>
-            <form action="http://localhost:5678/api/users/login" method="post" id="loginform">
+            <form id="loginform">
                 <h2>Login</h2>
                 <div class="form-input">
                     <div class="input-group">
@@ -35,9 +35,12 @@
                         <label for="password">Mot de passe</label>
                         <input type="password" name="password" id="password">
                     </div>
+                    <div id="error-style">
+                        <p>Erreur dans l'identifiant ou le mot de passe.</p>
+                    </div>
                 </div>
-                <button class="login-button" type="submit">Se connecter</button>
-                <a href="#" class="link">Mot de passe oublié</a>
+                <button id="login-button" type="submit">Se connecter</button>
+                <a href="#" id="forgotten-password">Mot de passe oublié</a>
             </form>
         </main>
         <footer>

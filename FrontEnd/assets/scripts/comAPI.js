@@ -1,31 +1,65 @@
 export const getWorks = async () => {
-    const header = {
-        method : 'GET',
-        headers : {'accept' : 'application/json'}
+    try{
+        const response = await fetch("http://localhost:5678/api/works", {
+            method : 'GET',
+            headers : {'accept' : 'application/json'}
+        });
+
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            const errorMessage = response.json();
+            return errorMessage.message;
+        }
     }
-    return await fetch("http://localhost:5678/api/works", header)
-    .then(response => response.json())
-    .then(data => {
-        return data;
-    })
-    .catch(error => {
-        console.error('Failed to fetch works : ', error);
-    });
+    catch(error){
+        console.error("Error while fetching data : ", error);
+    }
 }
 
 export const getCat = async () => {
-    const header = {
-        method : 'GET',
-        headers : {'accept' : 'application/json'}
+    try{
+        const response = await fetch("http://localhost:5678/api/categories", {
+            method : 'GET',
+            headers : {'accept' : 'application/json'}
+        });
+
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            const errorMessage = response.json();
+            return errorMessage.message;
+        }
     }
-    return await fetch("http://localhost:5678/api/categories", header)
-    .then(response => response.json())
-    .then(data => {
-        return data;
-    })
-    .catch(error => {
-        console.error('Failed to fetch category : ', error);
-    });
+    catch(error){
+        console.error("Error while fetching data : ", error);
+    }
 }
 
-export default {getWorks, getCat};
+export const getToken = async (email, password) => {
+    console.log(JSON.stringify({email, password}));
+    try{
+        const response = await fetch("http://localhost:5678/api/users/login", {
+            method : 'POST',
+            headers : {
+                'accept' : 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body : JSON.stringify({email, password})
+        });
+        
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            return response.json();
+        }
+    }
+    catch(error) {
+        console.error("Error while getting token : ", error);
+    }
+}
+
+export default {getWorks, getCat, getToken};

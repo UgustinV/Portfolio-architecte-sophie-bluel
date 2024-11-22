@@ -122,12 +122,8 @@ nav>ul li>a:hover {
 	color: #B1663C;
 }
 
-.link {
+ul li:nth-of-type(3) a{
 	font-weight: 600;
-}
-
-.link {
-	color: black;
 }
 
 #loginform {
@@ -164,13 +160,32 @@ nav>ul li>a:hover {
 	border: 0;
 }
 
-.login-button {
+#error-style {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	height: 50px;
+	width: 380px;
+	background-color: rgb(199, 44, 44);
+}
+
+#login-button {
 	padding: 10px 39px;
 	background-color: #1D6154;
-	border: 0;
+	border: solid 1px #1D6154;
 	border-radius: 60px;
 	font-family: Syne;
 	color: white;
+}
+
+#login-button:hover {
+	background-color: transparent;
+	color: black;
+	cursor: pointer;
+}
+
+#forgotten-password {
+	color: black;
 }
 
 footer nav ul {
@@ -181,6 +196,7 @@ footer nav ul {
 
 footer {
 	display: flex;
+	padding-right: 107px;
 	justify-content: flex-end;
 	align-items: center;
 	background-color: white;

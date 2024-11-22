@@ -18,9 +18,11 @@ const setWorks = async () => {
 
 const setFilters = async () => {
     const categories = await getCat();
-    const filters = document.getElementById("filters");
+    const filters = document.getElementsByClassName("portfolio-head-filters");
+    const filterNav = document.createElement("nav");
     const filtersList = document.createElement("ul");
     const filter = document.createElement("li");
+    filterNav.id = "filters";
     filter.textContent = "Tous";
     filter.classList.add("filter", "active-filter");
     filter.id = "0"
@@ -32,7 +34,8 @@ const setFilters = async () => {
         filter.id = category.id;
         filtersList.appendChild(filter);
     });
-    filters.appendChild(filtersList);
+    filterNav.appendChild(filtersList);
+    filters[0].appendChild(filterNav);
     const filterList = document.getElementsByClassName("filter");
     Array.from(filterList).forEach(filter => {
         filter.addEventListener("click", () => changeFilter(filter.id));
@@ -61,5 +64,46 @@ const changeFilter = async (type) => {
     });
 }
 
-setWorks();
-setFilters();
+const isLoggedIn = () => {
+    const logInOutButton = document.querySelector("ul li:nth-of-type(3) a");
+    logInOutButton.textContent = "logout";
+    logInOutButton.href = "#";
+    logInOutButton.addEventListener("click", (event) => {
+        if(window.localStorage.getItem("token")) {
+            event.preventDefault();
+        }
+        window.localStorage.removeItem("token");
+        logInOutButton.href = "./login.html";
+        logInOutButton.textContent = "login";
+        setEditing();
+        setFilters();
+    });
+}
+
+const setEditing = () => {
+    const editElements = document.getElementsByClassName("no-edit");
+    if(window.localStorage.getItem("token")) {
+        Array.from(editElements).forEach(element => {
+            element.style.display = "flex";
+        });
+    }
+    else {
+        Array.from(editElements).forEach(element => {
+            element.style.display = "none";
+        });
+    }
+}
+
+const setPage = () => {
+    if(window.localStorage.getItem("token")){
+        isLoggedIn();
+        setWorks();
+        setEditing();
+    }
+    else{
+        setWorks();
+        setFilters();
+    }
+}
+
+setPage();
