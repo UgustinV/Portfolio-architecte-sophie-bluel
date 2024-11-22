@@ -1,26 +1,6 @@
-export const getWorks = async () => {
+export const getItems = async (type) => {
     try{
-        const response = await fetch("http://localhost:5678/api/works", {
-            method : 'GET',
-            headers : {'accept' : 'application/json'}
-        });
-
-        if(response.ok){
-            return response.json();
-        }
-        else{
-            const errorMessage = response.json();
-            return errorMessage.message;
-        }
-    }
-    catch(error){
-        console.error("Error while fetching data : ", error);
-    }
-}
-
-export const getCat = async () => {
-    try{
-        const response = await fetch("http://localhost:5678/api/categories", {
+        const response = await fetch("http://localhost:5678/api/" + type, {
             method : 'GET',
             headers : {'accept' : 'application/json'}
         });
@@ -62,4 +42,4 @@ export const getToken = async (email, password) => {
     }
 }
 
-export default {getWorks, getCat, getToken};
+export default {getItems, getToken};

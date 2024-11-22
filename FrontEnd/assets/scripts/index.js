@@ -1,7 +1,7 @@
-import { getWorks, getCat } from "./comAPI.js";
+import { getItems } from "./comAPI.js";
 
 const setWorks = async () => {
-    const works = await getWorks();
+    const works = await getItems("works");
     const gallery = document.getElementById("gallery");
     works.forEach(element => {
         const work = document.createElement("figure");
@@ -17,7 +17,7 @@ const setWorks = async () => {
 }
 
 const setFilters = async () => {
-    const categories = await getCat();
+    const categories = await getItems("categories");
     const filters = document.getElementsByClassName("portfolio-head-filters");
     const filterNav = document.createElement("nav");
     const filtersList = document.createElement("ul");
