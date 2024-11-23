@@ -14,10 +14,10 @@
 <body>
 <header>
 	<div class="edit-header no-edit">
-		<a href="#">
+		<div>
 			<img src="./assets/icons/editingHead.svg" alt="editing icon">
 			<p>Mode édition</p>
-		</a>
+		</div>
 	</div>
 	<div id="base-header">
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -49,7 +49,7 @@
 		<div class="portfolio-head-filters">
 			<h2>Mes Projets
 				<div class="no-edit">
-					<a href="#" class="edit-title"><img src="./assets/icons/editingButton.svg" alt=""><p>modifier</p></a>
+					<div class="edit-title"><img src="./assets/icons/editingButton.svg" alt=""><p>modifier</p></div>
 				</div>
 			</h2>
 		</div>
@@ -78,4 +78,44 @@
 	</nav>
 </footer>
 </body>
+
+<aside id="modale">
+	<div class="edit-galery" id="delete-elem">
+		<div id="edit-galery-header">
+			<img src="./assets/icons/xmark.svg" alt="bouton de fermeture" class="closing-button">
+		</div>
+		<div class="modale-content">
+			<h1>Galerie photo</h1>
+			<div id="photos-container"></div>
+			<div class="add-photo-container">
+				<button type="button" class="add-photo" id="display-add-photo">Ajouter une photo</button>
+			</div>
+		</div>
+	</div>
+	<div class="edit-galery" id="add-elem">
+		<div id="add-photo-header">
+			<img src="./assets/icons/arrow-left.svg" alt="flèche de retour en arrière">
+			<img src="./assets/icons/xmark.svg" alt="bouton de fermeture" class="closing-button">
+		</div>
+		<div class="modale-content">
+			<h1>Ajout photo</h1>
+			<div id="photo-input">
+				<img src="./assets/icons/picture-schema.svg" alt="image décrivant une photo à déposer" id="photo-icon">
+				<button>+ Ajouter photo</button>
+				<p>jpg, png : 4mo max</p>
+			</div>
+			<form method="post" id="add-photo-form">
+				<label for="title">Titre</label>
+				<input type="text" name="title" class="form-input">
+				<label for="categories">Catégorie</label>
+				<select class="form-input" name="categories">
+				</select>
+			</form>
+			<div class="add-photo-container">
+				<button type="button" class="add-photo">Valider</button>
+			</div>
+		</div>
+	</div>
+</aside>
+
 </html>

@@ -3,6 +3,7 @@ import { getItems } from "./comAPI.js";
 const setWorks = async () => {
     const works = await getItems("works");
     const gallery = document.getElementById("gallery");
+    const editGallery = document.getElementById("photos-container");
     works.forEach(element => {
         const work = document.createElement("figure");
         const image = document.createElement("img");
@@ -13,6 +14,12 @@ const setWorks = async () => {
         work.append(image, caption);
         work.setAttribute("category", element.category.id)
         gallery.appendChild(work);
+
+        const editImage = document.createElement("img");
+        editImage.src = element.imageUrl;
+        editImage.alt = element.title;
+        editImage.setAttribute("apiid", element.id);
+        editGallery.appendChild(editImage);
     });
 }
 
@@ -82,9 +89,34 @@ const isLoggedIn = () => {
 
 const setEditing = () => {
     const editElements = document.getElementsByClassName("no-edit");
+    const closingButtons = document.getElementsByClassName("closing-button");
+    const modale = document.getElementById("modale");
+    const changePage = document.getElementById("display-add-photo");
     if(window.localStorage.getItem("token")) {
         Array.from(editElements).forEach(element => {
             element.style.display = "flex";
+            element.addEventListener("click", () => {
+                modale.style.display = "flex";
+                document.getElementById("delete-elem").style.display = "flex";
+                document.getElementById("add-elem").style.display = "none";
+            });
+        });
+        Array.from(closingButtons).forEach(element => {
+            element.addEventListener("click", () => {
+                const modale = document.getElementById("modale");
+                modale.style.display = "none";
+                document.getElementById("delete-elem").style.display = "flex";
+                document.getElementById("add-elem").style.display = "none";
+            });
+        });
+        modale.addEventListener("click", (event) => {
+            if(event.target === modale){
+                modale.style.display = "none";
+            }
+        });
+        changePage.addEventListener("click", () => {
+            document.getElementById("delete-elem").style.display = "none";
+            document.getElementById("add-elem").style.display = "flex";
         });
     }
     else {
