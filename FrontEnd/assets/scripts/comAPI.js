@@ -19,7 +19,6 @@ export const getItems = async (type) => {
 }
 
 export const getToken = async (email, password) => {
-    console.log(JSON.stringify({email, password}));
     try{
         const response = await fetch("http://localhost:5678/api/users/login", {
             method : 'POST',
@@ -42,4 +41,27 @@ export const getToken = async (email, password) => {
     }
 }
 
-export default {getItems, getToken};
+export const deleteItems = async (token, id) => {
+    try{
+        const response = await fetch("http://localhost:5678/api/works/" + id, {
+            method : 'DELETE',
+            headers : {
+                'accept' : 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+        
+        if(response.ok){
+            return response.status;
+        }
+        else{
+            return response.status;
+        }
+    }
+    catch(error) {
+        console.error("Error while deleting item : ", error);
+    }
+}
+
+export default {getItems, getToken, deleteItems};

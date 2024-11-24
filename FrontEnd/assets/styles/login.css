@@ -191,12 +191,12 @@ ul li:nth-of-type(3) a{
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
+	padding-right: 107px;
 }
 
 footer {
 	display: flex;
-	padding-right: 107px;
 	justify-content: flex-end;
 	align-items: center;
 	background-color: white;

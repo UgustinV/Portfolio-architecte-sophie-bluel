@@ -1,4 +1,4 @@
-import { getItems } from "./comAPI.js";
+import { getItems, deleteItems } from "./comAPI.js";
 
 const setWorks = async () => {
     const works = await getItems("works");
@@ -11,15 +11,33 @@ const setWorks = async () => {
         image.src = element.imageUrl;
         image.alt = element.title;
         caption.textContent = element.title;
+        work.setAttribute("apiid", element.id);
         work.append(image, caption);
         work.setAttribute("category", element.category.id)
         gallery.appendChild(work);
 
+        const editImageContainer = document.createElement("div");
         const editImage = document.createElement("img");
+        const deleteButton = document.createElement("img");
+        deleteButton.src = "./assets/icons/trash-can.svg";
+        deleteButton.alt = "Supprimer";
+        deleteButton.setAttribute("apiid", element.id);
+        deleteButton.classList.add("delete-button");
         editImage.src = element.imageUrl;
         editImage.alt = element.title;
-        editImage.setAttribute("apiid", element.id);
-        editGallery.appendChild(editImage);
+        editImageContainer.setAttribute("apiid", element.id);
+        editImageContainer.appendChild(editImage);
+        editImageContainer.appendChild(deleteButton);
+        editGallery.appendChild(editImageContainer);
+        deleteButton.addEventListener("click", async () => {
+            const response = await deleteItems(window.localStorage.getItem("token"), element.id);
+            if(response === 204){
+                const deletedElements = document.querySelectorAll("[apiid='" + element.id + "']");
+                Array.from(deletedElements).forEach(elm => {
+                    elm.remove();
+                });
+            }
+        });
     });
 }
 
