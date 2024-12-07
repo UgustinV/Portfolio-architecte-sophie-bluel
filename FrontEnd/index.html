@@ -13,14 +13,16 @@
 </head>
 <body>
 <header>
-	<div class="edit-header no-edit">
+	<div class="edit-header toggle-edit">
 		<div>
 			<img src="./assets/icons/editingHead.svg" alt="editing icon">
 			<p>Mode édition</p>
 		</div>
 	</div>
 	<div id="base-header">
-		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<a href="#">
+			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		</a>
 		<nav>
 			<ul>
 				<li><a href="#">projets</a></li>
@@ -48,12 +50,12 @@
 	<section id="portfolio">
 		<div class="portfolio-head-filters">
 			<h2>Mes Projets
-				<div class="no-edit">
+				<div class="toggle-edit">
 					<div class="edit-title"><img src="./assets/icons/editingButton.svg" alt=""><p>modifier</p></div>
 				</div>
 			</h2>
 		</div>
-		<div class="gallery" id="gallery"></div>
+		<div id="gallery"></div>
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
@@ -94,17 +96,18 @@
 	</div>
 	<div class="edit-galery" id="add-elem">
 		<div id="add-photo-header">
-			<img src="./assets/icons/arrow-left.svg" alt="flèche de retour en arrière">
+			<img src="./assets/icons/arrow-left.svg" alt="flèche de retour en arrière" id="back-button">
 			<img src="./assets/icons/xmark.svg" alt="bouton de fermeture" class="closing-button">
 		</div>
 		<div class="modale-content">
 			<h1>Ajout photo</h1>
-			<div id="photo-input">
-				<img src="./assets/icons/picture-schema.svg" alt="image décrivant une photo à déposer" id="photo-icon">
-				<button>+ Ajouter photo</button>
-				<p>jpg, png : 4mo max</p>
-			</div>
 			<form method="post" id="add-photo-form">
+				<div id="photo-input">
+					<img src="./assets/icons/picture-schema.svg" alt="image décrivant une photo à déposer" id="photo-icon">
+					<label for="photo-import">+ Ajouter photo</label>
+					<input type="file" id="photo-import" accept=".png, .jpg, .jpeg">
+					<p>jpg, png : 4mo max</p>
+				</div>
 				<label for="title">Titre</label>
 				<input type="text" name="title" class="form-input">
 				<label for="categories">Catégorie</label>
@@ -112,7 +115,7 @@
 				</select>
 			</form>
 			<div class="add-photo-container">
-				<button type="button" class="add-photo">Valider</button>
+				<button type="submit" class="add-photo">Valider</button>
 			</div>
 		</div>
 	</div>

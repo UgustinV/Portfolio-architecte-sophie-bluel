@@ -2,7 +2,6 @@ import { getToken } from "./comAPI.js";
 
 const loginButton = document.getElementById("loginform");
 loginButton.addEventListener("submit", async (event) => {
-    console.log("test")
     event.preventDefault();
     const response = await getToken(event.target.email.value, event.target.password.value);
     if(response.token){
@@ -15,7 +14,6 @@ loginButton.addEventListener("submit", async (event) => {
         error.style.display = "flex";
         Array.from(formInputs).forEach(input => {
             input.addEventListener("focus", (event) => {
-                console.log("focus")
                 error.style.display = "none";
             });
         })

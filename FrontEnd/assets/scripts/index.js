@@ -1,9 +1,16 @@
-import { getItems, deleteItems } from "./comAPI.js";
+import { getItems } from "./comAPI.js";
+import { deletableWorks, setCategoriesSelect, toggleModale, setModaleForm } from "./modale.js";
 
+const gallery = document.getElementById("gallery");
+const filtersContainer = document.getElementsByClassName("portfolio-head-filters");
+const filters = document.getElementsByClassName("filter");
+const editElements = document.getElementsByClassName("toggle-edit");
+const categoriesOptions = document.querySelector("#add-photo-form select");
+const logInOutButton = document.querySelector("ul li:nth-of-type(3) a");
+
+// Displays all available works on the index page
 const setWorks = async () => {
     const works = await getItems("works");
-    const gallery = document.getElementById("gallery");
-    const editGallery = document.getElementById("photos-container");
     works.forEach(element => {
         const work = document.createElement("figure");
         const image = document.createElement("img");
@@ -15,35 +22,14 @@ const setWorks = async () => {
         work.append(image, caption);
         work.setAttribute("category", element.category.id)
         gallery.appendChild(work);
-
-        const editImageContainer = document.createElement("div");
-        const editImage = document.createElement("img");
-        const deleteButton = document.createElement("img");
-        deleteButton.src = "./assets/icons/trash-can.svg";
-        deleteButton.alt = "Supprimer";
-        deleteButton.setAttribute("apiid", element.id);
-        deleteButton.classList.add("delete-button");
-        editImage.src = element.imageUrl;
-        editImage.alt = element.title;
-        editImageContainer.setAttribute("apiid", element.id);
-        editImageContainer.appendChild(editImage);
-        editImageContainer.appendChild(deleteButton);
-        editGallery.appendChild(editImageContainer);
-        deleteButton.addEventListener("click", async () => {
-            const response = await deleteItems(window.localStorage.getItem("token"), element.id);
-            if(response === 204){
-                const deletedElements = document.querySelectorAll("[apiid='" + element.id + "']");
-                Array.from(deletedElements).forEach(elm => {
-                    elm.remove();
-                });
-            }
-        });
     });
+    
+    deletableWorks(works);
 }
 
 const setFilters = async () => {
     const categories = await getItems("categories");
-    const filters = document.getElementsByClassName("portfolio-head-filters");
+    console.log(categoriesOptions);
     const filterNav = document.createElement("nav");
     const filtersList = document.createElement("ul");
     const filter = document.createElement("li");
@@ -53,23 +39,24 @@ const setFilters = async () => {
     filter.id = "0"
     filtersList.appendChild(filter);
     categories.forEach(category => {
+        const categoryOption = document.createElement("option");
+        categoryOption.value = category.id;
+        categoryOption.textContent = category.name;
         const filter = document.createElement("li");
         filter.textContent = category.name;
         filter.className = "filter";
         filter.id = category.id;
         filtersList.appendChild(filter);
+        categoriesOptions.appendChild(categoryOption);
     });
     filterNav.appendChild(filtersList);
-    filters[0].appendChild(filterNav);
-    const filterList = document.getElementsByClassName("filter");
-    Array.from(filterList).forEach(filter => {
+    filtersContainer[0].appendChild(filterNav);
+    Array.from(filters).forEach(filter => {
         filter.addEventListener("click", () => changeFilter(filter.id));
     });
 }
 
 const changeFilter = async (type) => {
-    const filters = document.getElementsByClassName("filter");
-    const gallery = document.getElementById("gallery");
     const works = gallery.children;
     Array.from(works).forEach(work => {
         if(type !== "0" && work.getAttribute("category") !== type){
@@ -89,53 +76,25 @@ const changeFilter = async (type) => {
     });
 }
 
-const isLoggedIn = () => {
-    const logInOutButton = document.querySelector("ul li:nth-of-type(3) a");
+const toggleLogin = () => {
     logInOutButton.textContent = "logout";
     logInOutButton.href = "#";
     logInOutButton.addEventListener("click", (event) => {
-        if(window.localStorage.getItem("token")) {
+        if(isLoggedIn()) {
             event.preventDefault();
         }
         window.localStorage.removeItem("token");
         logInOutButton.href = "./login.html";
         logInOutButton.textContent = "login";
-        setEditing();
+        toggleEditing();
         setFilters();
     });
 }
 
-const setEditing = () => {
-    const editElements = document.getElementsByClassName("no-edit");
-    const closingButtons = document.getElementsByClassName("closing-button");
-    const modale = document.getElementById("modale");
-    const changePage = document.getElementById("display-add-photo");
-    if(window.localStorage.getItem("token")) {
-        Array.from(editElements).forEach(element => {
-            element.style.display = "flex";
-            element.addEventListener("click", () => {
-                modale.style.display = "flex";
-                document.getElementById("delete-elem").style.display = "flex";
-                document.getElementById("add-elem").style.display = "none";
-            });
-        });
-        Array.from(closingButtons).forEach(element => {
-            element.addEventListener("click", () => {
-                const modale = document.getElementById("modale");
-                modale.style.display = "none";
-                document.getElementById("delete-elem").style.display = "flex";
-                document.getElementById("add-elem").style.display = "none";
-            });
-        });
-        modale.addEventListener("click", (event) => {
-            if(event.target === modale){
-                modale.style.display = "none";
-            }
-        });
-        changePage.addEventListener("click", () => {
-            document.getElementById("delete-elem").style.display = "none";
-            document.getElementById("add-elem").style.display = "flex";
-        });
+const toggleEditing = () => {
+    if(isLoggedIn()) {
+        toggleModale();
+        setModaleForm();
     }
     else {
         Array.from(editElements).forEach(element => {
@@ -144,14 +103,20 @@ const setEditing = () => {
     }
 }
 
+const isLoggedIn = () => {
+    let loginStatus;
+    window.localStorage.getItem("token") ? loginStatus = true : loginStatus = false;
+    return loginStatus;
+}
+
 const setPage = () => {
-    if(window.localStorage.getItem("token")){
-        isLoggedIn();
-        setWorks();
-        setEditing();
+    setWorks();
+    if(isLoggedIn()){
+        toggleLogin();
+        toggleEditing();
+        setCategoriesSelect();
     }
     else{
-        setWorks();
         setFilters();
     }
 }

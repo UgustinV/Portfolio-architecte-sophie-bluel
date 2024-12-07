@@ -69,6 +69,10 @@ header {
 	justify-content: space-between;
 }
 
+#base-header>a {
+	text-decoration: none;
+}
+
 .edit-header {
 	display: flex;
 	color: white;
@@ -89,7 +93,7 @@ header {
 	padding-right: 11px;
 }
 
-.no-edit {
+.toggle-edit {
 	display: none;
 }
 
@@ -215,7 +219,7 @@ nav>ul li>a:hover {
 	left: calc(100% + 31px);
 }
 
-.no-edit img {
+.toggle-edit img {
 	padding-right: 10px;
 }
 
@@ -254,7 +258,7 @@ nav>ul li>a:hover {
 	cursor: pointer;
 }
 
-.gallery {
+#gallery {
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -262,7 +266,7 @@ nav>ul li>a:hover {
 	grid-row-gap: 20px;
 }
 
-.gallery img {
+#gallery img {
 	width: 100%;
 
 }
@@ -425,14 +429,14 @@ select {
 	align-items: center;
 	background-color: #E8F1F6;
 	width: 100%;
-	height: 100%;
+	height: 155px;
 	padding: 10px;
 	margin-bottom: 9px;
 	font-size: 14px;
 	border-radius: 3px;
 }
 
-#photo-input button {
+#photo-input label {
 	padding: 10px 33px;
 	margin-top: 6px;
 	margin-bottom: 7px;
@@ -442,6 +446,11 @@ select {
 	font-family: "Work Sans";
 	font-weight: 500;
 	color: #306685;
+	cursor: pointer;
+}
+
+#photo-input input {
+	display: none;
 }
 
 #photo-input p {
@@ -488,7 +497,11 @@ select {
 	display: none;
 }
 
-.no-edit:first-child {
+.toggle-edit:first-child {
+	cursor: pointer;
+}
+
+#back-button {
 	cursor: pointer;
 }
 
@@ -501,4 +514,8 @@ select {
 	background-color: black;
 	padding: 3px 4px;
 	border-radius: 2px;
+}
+
+#preview-image {
+	height: 100%;
 }

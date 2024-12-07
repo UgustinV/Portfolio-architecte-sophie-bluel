@@ -29,12 +29,7 @@ export const getToken = async (email, password) => {
             body : JSON.stringify({email, password})
         });
         
-        if(response.ok){
-            return response.json();
-        }
-        else{
-            return response.json();
-        }
+        return response.json();
     }
     catch(error) {
         console.error("Error while getting token : ", error);
@@ -51,13 +46,8 @@ export const deleteItems = async (token, id) => {
                 'Authorization': 'Bearer ' + token
             }
         });
-        
-        if(response.ok){
-            return response.status;
-        }
-        else{
-            return response.status;
-        }
+
+        return response.status;
     }
     catch(error) {
         console.error("Error while deleting item : ", error);
