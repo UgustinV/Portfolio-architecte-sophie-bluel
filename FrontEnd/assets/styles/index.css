@@ -414,6 +414,17 @@ footer {
 	cursor: pointer;
 }
 
+.disabled-add-photo {
+	padding: 10px 0px;
+	width: 237px;
+	background-color: #A7A7A7;
+	border: solid 1px #A7A7A7;
+	border-radius: 60px;
+	font-family: Syne;
+	color: white;
+	cursor: pointer;
+}
+
 .add-photo:hover {
 	background-color: transparent;
 	color: black;
@@ -421,6 +432,7 @@ footer {
 
 select {
 	cursor: pointer;
+	margin-bottom: 46px;
 }
 
 #photo-input {
@@ -428,7 +440,8 @@ select {
 	flex-direction: column;
 	align-items: center;
 	background-color: #E8F1F6;
-	width: 100%;
+	overflow: hidden;
+	width: 360px;
 	height: 155px;
 	padding: 10px;
 	margin-bottom: 9px;
@@ -473,11 +486,19 @@ select {
 	width: 24px;
 }
 
+#file-error {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	height: 50px;
+	width: 380px;
+	background-color: rgb(199, 44, 44);
+}
+
 #add-photo-form {
 	display: flex;
 	flex-direction: column;
 	justify-content: left;
-	margin-bottom: 46px;
 }
 
 #add-photo-form label {

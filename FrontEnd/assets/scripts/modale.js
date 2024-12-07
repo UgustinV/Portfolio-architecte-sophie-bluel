@@ -1,4 +1,4 @@
-import { getItems, deleteItems } from "./comAPI.js";
+import { getItems, deleteItems, addWork } from "./comAPI.js";
 
 const editElements = document.getElementsByClassName("toggle-edit");
 const closingButtons = document.getElementsByClassName("closing-button");
@@ -11,17 +11,70 @@ const deleteElem = document.getElementById("delete-elem");
 const addElem = document.getElementById("add-elem");
 const categoriesOptions = document.querySelector("#add-photo-form select");
 const fileInputContent = document.querySelectorAll("#photo-input > *");
-const formInput = document.getElementsByClassName("form-input");
 const form = document.getElementById("add-photo-form");
+const fileError = document.getElementById("file-error");
+const formButton = document.getElementById("submit-photo");
+const gallery = document.getElementById("gallery");
+
+const toggleDisplayModale = () => {
+    if(modale.style.display === "flex"){
+        modale.style.display = "none";
+        deleteElem.style.display = "none";
+        addElem.style.display = "none";
+        resetImageInputForm();
+    }
+    else{
+        modale.style.display = "flex";
+        deleteElem.style.display = "flex";
+        addElem.style.display = "none";
+    }
+}
+
+const updateWorks = async (id) => {
+    const works = await getItems("works");
+    const editGallery = document.getElementById("photos-container");
+    works.forEach(element => {
+        if(element.id === id){
+            const work = document.createElement("figure");
+            const image = document.createElement("img");
+            const caption = document.createElement("figcaption");
+            const editImageContainer = document.createElement("div");
+            const editImage = document.createElement("img");
+            const deleteButton = document.createElement("img");
+            image.src = element.imageUrl;
+            image.alt = element.title;
+            caption.textContent = element.title;
+            work.setAttribute("apiid", element.id);
+            work.append(image, caption);
+            work.setAttribute("category", element.category.id)
+            gallery.appendChild(work);
+            deleteButton.src = "./assets/icons/trash-can.svg";
+            deleteButton.alt = "Supprimer";
+            deleteButton.setAttribute("apiid", element.id);
+            deleteButton.classList.add("delete-button");
+            editImage.src = element.imageUrl;
+            editImage.alt = element.title;
+            editImageContainer.setAttribute("apiid", element.id);
+            editImageContainer.appendChild(editImage);
+            editImageContainer.appendChild(deleteButton);
+            editGallery.appendChild(editImageContainer);
+            deleteButton.addEventListener("click", async () => {
+                const response = await deleteItems(window.localStorage.getItem("token"), element.id);
+                if(response === 204){
+                    const deletedElements = document.querySelectorAll("[apiid='" + element.id + "']");
+                    Array.from(deletedElements).forEach(elm => {
+                        elm.remove();
+                    });
+                }
+            });
+        }
+    });
+}
 
 export const toggleModale = () => {
     Array.from(editElements).forEach(element => {
         element.style.display = "flex";
-        element.addEventListener("click", () => {
-            modale.style.display = "flex";
-            deleteElem.style.display = "flex";
-            addElem.style.display = "none";
-        });
+        element.addEventListener("click", toggleDisplayModale);
     });
     backButton.addEventListener("click", () => {
         deleteElem.style.display = "flex";
@@ -29,17 +82,11 @@ export const toggleModale = () => {
         resetImageInputForm();
     })
     Array.from(closingButtons).forEach(element => {
-        element.addEventListener("click", () => {
-            modale.style.display = "none";
-            deleteElem.style.display = "flex";
-            addElem.style.display = "none";
-            resetImageInputForm();
-        });
+        element.addEventListener("click", toggleDisplayModale);
     });
     modale.addEventListener("click", (event) => {
         if(event.target === modale){
-            modale.style.display = "none";
-            resetImageInputForm();
+            toggleDisplayModale();
         }
     });
     changePage.addEventListener("click", () => {
@@ -93,19 +140,35 @@ export const setCategoriesSelect = async () => {
 
 export const setModaleForm = () => {
     fileInput.addEventListener("change", (event) => {
-        Array.from(fileInputContent).forEach(elm => {
-            elm.style.display = "none";
-        })
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const preview = document.createElement("img");
-            preview.src = e.target.result;
-            preview.id = "preview-image";
-            fileInputContainer.appendChild(preview);
+        if(file.size > 4194304){
+            fileError.style.display = "flex";
         }
-        reader.readAsDataURL(file);
+        else{
+            fileError.style.display = "none";
+            Array.from(fileInputContent).forEach(elm => {
+                elm.style.display = "none";
+            })
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const preview = document.createElement("img");
+                preview.src = e.target.result;
+                preview.id = "preview-image";
+                fileInputContainer.appendChild(preview);
+            }
+            reader.readAsDataURL(file);
+        }
     });
+}
+
+const checkFilled = () => {
+    const inputs = document.querySelectorAll("#add-photo-form *[required]");
+    const formIsValid = Array.from(inputs).every(input => input.checkValidity());
+    if(formIsValid){
+        formButton.disabled = false;
+        formButton.classList.remove("disabled-add-photo");
+        formButton.classList.add("add-photo");
+    }
 }
 
 const resetImageInputForm = () => {
@@ -117,6 +180,21 @@ const resetImageInputForm = () => {
         const previewImage = document.getElementById("preview-image");
         fileInputContainer.removeChild(previewImage);
     }
+    fileError.style.display = "none";
+    formButton.disabled = true;
+    formButton.classList.add("disabled-add-photo");
+    formButton.classList.remove("add-photo");
 }
+
+form.addEventListener("input", checkFilled);
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const response = await addWork(window.localStorage.getItem("token"), formData);
+    if(response.id){
+        updateWorks(response.id);
+        toggleDisplayModale();
+    }
+});
 
 export default {deletableWorks, toggleModale, setCategoriesSelect, setModaleForm};

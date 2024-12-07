@@ -1,7 +1,7 @@
 import { getToken } from "./comAPI.js";
 
-const loginButton = document.getElementById("loginform");
-loginButton.addEventListener("submit", async (event) => {
+const loginForm = document.getElementById("loginform");
+loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const response = await getToken(event.target.email.value, event.target.password.value);
     if(response.token){

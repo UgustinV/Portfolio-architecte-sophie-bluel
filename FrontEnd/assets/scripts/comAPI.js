@@ -54,4 +54,21 @@ export const deleteItems = async (token, id) => {
     }
 }
 
-export default {getItems, getToken, deleteItems};
+export const addWork = async (token, formData) => {
+    try{
+        const response = await fetch("http://localhost:5678/api/works/", {
+            method : 'POST',
+            headers : {
+                'accept' : 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+            body : formData
+        });
+        return await response.json();
+    }
+    catch(error) {
+        console.error("Error while adding item : ", error);
+    }
+}
+
+export default {getItems, getToken, deleteItems, addWork};
