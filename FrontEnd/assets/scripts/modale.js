@@ -41,6 +41,8 @@ const updateWorks = async (id) => {
             const editImageContainer = document.createElement("div");
             const editImage = document.createElement("img");
             const deleteButton = document.createElement("img");
+            const confirmButton = document.createElement("img");
+            const cancelButton = document.createElement("img");
             image.src = element.imageUrl;
             image.alt = element.title;
             caption.textContent = element.title;
@@ -54,11 +56,33 @@ const updateWorks = async (id) => {
             deleteButton.classList.add("delete-button");
             editImage.src = element.imageUrl;
             editImage.alt = element.title;
+            cancelButton.src = "./assets/icons/close-button.svg";
+            cancelButton.alt = "Annuler";
+            cancelButton.setAttribute("apiid", element.id);
+            cancelButton.classList.add("delete-cancel", "delete-verification");
+            confirmButton.src = "./assets/icons/checked-checkbox.svg";
+            confirmButton.alt = "Supprimer";
+            confirmButton.setAttribute("apiid", element.id);
+            confirmButton.classList.add("delete-confirm",  "delete-verification");
+            editImage.src = element.imageUrl;
+            editImage.alt = element.title;
             editImageContainer.setAttribute("apiid", element.id);
             editImageContainer.appendChild(editImage);
             editImageContainer.appendChild(deleteButton);
+            editImageContainer.appendChild(cancelButton);
+            editImageContainer.appendChild(confirmButton);
             editGallery.appendChild(editImageContainer);
-            deleteButton.addEventListener("click", async () => {
+            deleteButton.addEventListener("click", () => {
+                deleteButton.style.display = "none";
+                cancelButton.style.display = "block";
+                confirmButton.style.display = "block";
+            })
+            cancelButton.addEventListener("click", () => {
+                deleteButton.style.display = "block";
+                cancelButton.style.display = "none";
+                confirmButton.style.display = "none";
+            })
+            confirmButton.addEventListener("click", async () => {
                 const response = await deleteItems(window.localStorage.getItem("token"), element.id);
                 if(response === 204){
                     const deletedElements = document.querySelectorAll("[apiid='" + element.id + "']");
@@ -101,6 +125,8 @@ export const deletableWorks = (works) => {
     works.forEach(element => {
         const editImageContainer = document.createElement("div");
         const editImage = document.createElement("img");
+        const confirmButton = document.createElement("img");
+        const cancelButton = document.createElement("img");
         const deleteButton = document.createElement("img");
         deleteButton.src = "./assets/icons/trash-can.svg";
         deleteButton.alt = "Supprimer";
@@ -108,11 +134,33 @@ export const deletableWorks = (works) => {
         deleteButton.classList.add("delete-button");
         editImage.src = element.imageUrl;
         editImage.alt = element.title;
+        cancelButton.src = "./assets/icons/close-button.svg";
+        cancelButton.alt = "Annuler";
+        cancelButton.setAttribute("apiid", element.id);
+        cancelButton.classList.add("delete-cancel", "delete-verification");
+        confirmButton.src = "./assets/icons/checked-checkbox.svg";
+        confirmButton.alt = "Supprimer";
+        confirmButton.setAttribute("apiid", element.id);
+        confirmButton.classList.add("delete-confirm",  "delete-verification");
+        editImage.src = element.imageUrl;
+        editImage.alt = element.title;
         editImageContainer.setAttribute("apiid", element.id);
         editImageContainer.appendChild(editImage);
         editImageContainer.appendChild(deleteButton);
+        editImageContainer.appendChild(cancelButton);
+        editImageContainer.appendChild(confirmButton);
         editGallery.appendChild(editImageContainer);
-        deleteButton.addEventListener("click", async () => {
+        deleteButton.addEventListener("click", () => {
+            deleteButton.style.display = "none";
+            cancelButton.style.display = "block";
+            confirmButton.style.display = "block";
+        })
+        cancelButton.addEventListener("click", () => {
+            deleteButton.style.display = "block";
+            cancelButton.style.display = "none";
+            confirmButton.style.display = "none";
+        })
+        confirmButton.addEventListener("click", async () => {
             const response = await deleteItems(window.localStorage.getItem("token"), element.id);
             if(response === 204){
                 const deletedElements = document.querySelectorAll("[apiid='" + element.id + "']");
