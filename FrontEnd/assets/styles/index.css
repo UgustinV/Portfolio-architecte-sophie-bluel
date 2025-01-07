@@ -396,11 +396,14 @@ footer {
 
 #photos-container div>img:first-of-type {
 	width: 100%;
+	object-fit: cover;
 }
 
 #photos-container div {
 	position: relative;
 	display: inline-block;
+	height: fit-content;
+	background-color: black;
 }
 
 .add-photo {

@@ -18,7 +18,7 @@
             </a>
             <nav>
                 <ul>
-                    <li><a href="./index.html">projets</a></li>
+                    <li><a href="./index.html#portfolio">projets</a></li>
                     <li><a href="#">contact</a></li>
                     <li><a href="#">login</a></li>
                     <li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
@@ -26,22 +26,22 @@
             </nav>
         </header>
         <main>
-            <form id="loginform" method="post">
+            <form id="login-form" method="post">
                 <h2>Login</h2>
-                <div class="form-input">
-                    <div class="input-group">
+                <div class="login-form__container">
+                    <div class="login-form__input-group">
                         <label for="email">E-mail</label>
                         <input type="email" name="email" id="email">
                     </div>
-                    <div class="input-group">
+                    <div class="login-form__input-group">
                         <label for="password">Mot de passe</label>
                         <input type="password" name="password" id="password">
                     </div>
-                    <div id="error-style">
+                    <div id="login-form__error">
                         <p>Erreur dans l'identifiant ou le mot de passe.</p>
                     </div>
                 </div>
-                <button id="login-button" type="submit">Se connecter</button>
+                <button id="login-form__button" type="submit">Se connecter</button>
                 <a href="#" id="forgotten-password">Mot de passe oublié</a>
             </form>
         </main>

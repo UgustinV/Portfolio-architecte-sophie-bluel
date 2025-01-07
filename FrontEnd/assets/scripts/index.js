@@ -104,9 +104,7 @@ const toggleEditing = () => {
 }
 
 const isLoggedIn = () => {
-    let loginStatus;
-    window.localStorage.getItem("token") ? loginStatus = true : loginStatus = false;
-    return loginStatus;
+    return window.localStorage.getItem("token");
 }
 
 const setPage = () => {

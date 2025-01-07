@@ -15,6 +15,7 @@ const form = document.getElementById("add-photo-form");
 const fileError = document.getElementById("file-error");
 const formButton = document.getElementById("submit-photo");
 const gallery = document.getElementById("gallery");
+const editGallery = document.getElementById("photos-container");
 
 const toggleDisplayModale = () => {
     if(modale.style.display === "flex"){
@@ -32,7 +33,6 @@ const toggleDisplayModale = () => {
 
 const updateWorks = async (id) => {
     const works = await getItems("works");
-    const editGallery = document.getElementById("photos-container");
     works.forEach(element => {
         if(element.id === id){
             const work = document.createElement("figure");
@@ -121,7 +121,6 @@ export const toggleModale = () => {
 
 // Sets all the available works in the modale to allow user to delete them
 export const deletableWorks = (works) => {
-    const editGallery = document.getElementById("photos-container");
     works.forEach(element => {
         const editImageContainer = document.createElement("div");
         const editImage = document.createElement("img");
@@ -216,6 +215,11 @@ const checkFilled = () => {
         formButton.disabled = false;
         formButton.classList.remove("disabled-add-photo");
         formButton.classList.add("add-photo");
+    }
+    else {
+        formButton.disabled = true;
+        formButton.classList.add("disabled-add-photo");
+        formButton.classList.remove("add-photo");
     }
 }
 
