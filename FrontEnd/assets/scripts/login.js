@@ -1,4 +1,6 @@
 import { getToken } from "./comAPI.js";
+import { triggerToast } from "./toast.js";
+
 
 const loginForm = document.getElementById("login-form");
 loginForm.addEventListener("submit", async (event) => {
@@ -9,13 +11,6 @@ loginForm.addEventListener("submit", async (event) => {
         window.location.href = './index.html'
     }
     else{
-        const formInputs = document.querySelectorAll(".input-group input");
-        const error = document.getElementById("error-style");
-        error.style.display = "flex";
-        Array.from(formInputs).forEach(input => {
-            input.addEventListener("focus", (event) => {
-                error.style.display = "none";
-            });
-        })
+        triggerToast();
     }
 });

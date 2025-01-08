@@ -316,8 +316,14 @@ input[type="submit"]{
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em;
+	margin: 1em;
 	padding-right: 107px;
+}
+
+footer nav ul li {
+	font-size: 14px;
+	font-weight: 300;
+	font-family: "Work Sans";
 }
 
 footer {
