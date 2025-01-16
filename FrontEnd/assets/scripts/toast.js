@@ -1,7 +1,9 @@
 const progressBar = document.getElementById("progress-bar");
 
-export const triggerToast = () => {
+export const triggerToast = (message) => {
     const toast = document.getElementById("toast");
+    const toastContent = document.querySelector("#toast span");
+    toastContent.textContent = message;
     toast.classList.add("animateToast");
     let total = 0;
     const timer = setInterval(() => {

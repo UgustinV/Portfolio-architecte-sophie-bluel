@@ -29,7 +29,6 @@ const setWorks = async () => {
 
 const setFilters = async () => {
     const categories = await getItems("categories");
-    console.log(categoriesOptions);
     const filterNav = document.createElement("nav");
     const filtersList = document.createElement("ul");
     const filter = document.createElement("li");

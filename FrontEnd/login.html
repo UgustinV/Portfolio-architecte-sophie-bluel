@@ -9,6 +9,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
         <meta name="description" content="">
         <link rel="stylesheet" href="./assets/styles/login.css">
+        <link rel="stylesheet" href="./assets/styles/toast.css">
         <script src="./assets/scripts/login.js" type="module"></script>
     </head>
     <body>
@@ -37,9 +38,6 @@
                         <label for="password">Mot de passe</label>
                         <input type="password" name="password" id="password">
                     </div>
-                    <div id="login-form__error">
-                        <p>Erreur dans l'identifiant ou le mot de passe.</p>
-                    </div>
                 </div>
                 <button id="login-form__button" type="submit">Se connecter</button>
                 <a href="#" id="forgotten-password">Mot de passe oublié</a>
@@ -54,7 +52,7 @@
         </footer>
     </body>
     <aside id="toast">
-        <span>Erreur dans l'identifiant ou le mot de passe.</span>
+        <span></span>
         <div id="progress-bar"></div>
     </aside>
 </html>

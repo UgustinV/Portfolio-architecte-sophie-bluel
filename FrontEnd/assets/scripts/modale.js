@@ -1,4 +1,5 @@
 import { getItems, deleteItems, addWork } from "./comAPI.js";
+import { triggerToast } from "./toast.js";
 
 const editElements = document.getElementsByClassName("toggle-edit");
 const closingButtons = document.getElementsByClassName("closing-button");
@@ -12,7 +13,6 @@ const addElem = document.getElementById("add-elem");
 const categoriesOptions = document.querySelector("#add-photo-form select");
 const fileInputContent = document.querySelectorAll("#photo-input > *");
 const form = document.getElementById("add-photo-form");
-const fileError = document.getElementById("file-error");
 const formButton = document.getElementById("submit-photo");
 const gallery = document.getElementById("gallery");
 const editGallery = document.getElementById("photos-container");
@@ -76,6 +76,7 @@ const updateWorks = async (id) => {
                 deleteButton.style.display = "none";
                 cancelButton.style.display = "block";
                 confirmButton.style.display = "block";
+                editImage.style.filter = "blur(1px) saturate(0.7)";
             })
             cancelButton.addEventListener("click", () => {
                 deleteButton.style.display = "block";
@@ -153,11 +154,13 @@ export const deletableWorks = (works) => {
             deleteButton.style.display = "none";
             cancelButton.style.display = "block";
             confirmButton.style.display = "block";
+            editImage.style.filter = "blur(1px) saturate(0.7)";
         })
         cancelButton.addEventListener("click", () => {
             deleteButton.style.display = "block";
             cancelButton.style.display = "none";
             confirmButton.style.display = "none";
+            editImage.style.filter = "";
         })
         confirmButton.addEventListener("click", async () => {
             const response = await deleteItems(window.localStorage.getItem("token"), element.id);
@@ -189,10 +192,9 @@ export const setModaleForm = () => {
     fileInput.addEventListener("change", (event) => {
         const file = event.target.files[0];
         if(file.size > 4194304){
-            fileError.style.display = "flex";
+            triggerToast("Taille de fichier trop élevée");
         }
         else{
-            fileError.style.display = "none";
             Array.from(fileInputContent).forEach(elm => {
                 elm.style.display = "none";
             })
@@ -211,7 +213,9 @@ export const setModaleForm = () => {
 const checkFilled = () => {
     const inputs = document.querySelectorAll("#add-photo-form *[required]");
     const formIsValid = Array.from(inputs).every(input => input.checkValidity());
-    if(formIsValid){
+    const fileInput = document.getElementById("photo-import").files[0];
+    const fileIsValid = fileInput ? fileInput.size <= 4194304 : false;
+    if(formIsValid && fileIsValid){
         formButton.disabled = false;
         formButton.classList.remove("disabled-add-photo");
         formButton.classList.add("add-photo");
@@ -232,7 +236,6 @@ const resetImageInputForm = () => {
         const previewImage = document.getElementById("preview-image");
         fileInputContainer.removeChild(previewImage);
     }
-    fileError.style.display = "none";
     formButton.disabled = true;
     formButton.classList.add("disabled-add-photo");
     formButton.classList.remove("add-photo");

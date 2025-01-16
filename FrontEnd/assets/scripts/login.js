@@ -11,6 +11,6 @@ loginForm.addEventListener("submit", async (event) => {
         window.location.href = './index.html'
     }
     else{
-        triggerToast();
+        triggerToast("Identifiant ou mot de passe incorrect.");
     }
 });

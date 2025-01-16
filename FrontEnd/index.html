@@ -9,6 +9,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 		<meta name="description" content="">
 		<link rel="stylesheet" href="./assets/styles/index.css">
+        <link rel="stylesheet" href="./assets/styles/toast.css">
 		<script src="./assets/scripts/index.js" type="module"></script>
 	</head>
 	<body>
@@ -108,9 +109,6 @@
 						<input type="file" name="image" id="photo-import" accept=".png, .jpg, .jpeg" required/>
 						<p>jpg, png : 4mo max</p>
 					</div>
-					<div id="file-error">
-						<p>Taille de fichier trop élevée</p>
-					</div>
 					<label for="title">Titre</label>
 					<input type="text" name="title" class="form-input" required/>
 					<label for="categories">Catégorie</label>
@@ -123,4 +121,8 @@
 			</div>
 		</div>
 	</aside>
+	<aside id="toast">
+        <span></span>
+        <div id="progress-bar"></div>
+    </aside>
 </html>
