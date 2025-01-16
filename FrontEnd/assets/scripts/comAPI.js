@@ -1,3 +1,5 @@
+import { triggerToast } from "./toast.js";
+
 export const getItems = async (type) => {
     try{
         const response = await fetch("http://localhost:5678/api/" + type, {
@@ -15,6 +17,7 @@ export const getItems = async (type) => {
     }
     catch(error){
         console.error("Error while fetching data : ", error);
+        triggerToast("Error while fetching data");
     }
 }
 
@@ -33,6 +36,7 @@ export const getToken = async (email, password) => {
     }
     catch(error) {
         console.error("Error while getting token : ", error);
+        triggerToast("Error while getting token");
     }
 }
 
@@ -51,6 +55,7 @@ export const deleteItems = async (token, id) => {
     }
     catch(error) {
         console.error("Error while deleting item : ", error);
+        triggerToast("Error while deleting item");
     }
 }
 
@@ -68,6 +73,7 @@ export const addWork = async (token, formData) => {
     }
     catch(error) {
         console.error("Error while adding item : ", error);
+        triggerToast("Error while adding item");
     }
 }
 
