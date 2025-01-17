@@ -13,9 +13,9 @@
 		<link rel="stylesheet" href="./assets/styles/modale.css">
 		<script src="./assets/scripts/index.js" type="module"></script>
 	</head>
-	<body>
+	<body> 
 	<header>
-		<div class="edit-header toggle-edit">
+		<div class="edit-header editing-mode hidden">
 			<div>
 				<img src="./assets/icons/editingHead.svg" alt="editing icon">
 				<p>Mode édition</p>
@@ -52,7 +52,7 @@
 		<section id="portfolio">
 			<div class="portfolio-head-filters">
 				<h2>Mes Projets
-					<div class="toggle-edit">
+					<div class="editing-mode hidden">
 						<div class="edit-title"><img src="./assets/icons/editingButton.svg" alt=""><p>modifier</p></div>
 					</div>
 				</h2>
@@ -81,9 +81,7 @@
 			</ul>
 		</nav>
 	</footer>
-	</body>
-
-	<aside id="modale">
+	<aside id="modale" class="hidden">
 		<div class="edit-galery" id="delete-elem">
 			<div id="edit-galery-header">
 				<img src="./assets/icons/xmark.svg" alt="bouton de fermeture" class="closing-button">
@@ -96,7 +94,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="edit-galery" id="add-elem">
+		<div class="edit-galery hidden" id="add-elem">
 			<div id="add-photo-header">
 				<img src="./assets/icons/arrow-left.svg" alt="flèche de retour en arrière" id="back-button">
 				<img src="./assets/icons/xmark.svg" alt="bouton de fermeture" class="closing-button">
@@ -126,4 +124,5 @@
         <span></span>
         <div id="progress-bar"></div>
     </aside>
+	</body>
 </html>

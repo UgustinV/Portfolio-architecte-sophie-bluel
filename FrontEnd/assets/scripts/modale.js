@@ -1,7 +1,7 @@
 import { getItems, deleteItems, addWork } from "./comAPI.js";
 import { triggerToast } from "./toast.js";
 
-const editElements = document.getElementsByClassName("toggle-edit");
+const editElements = document.getElementsByClassName("editing-mode");
 const closingButtons = document.getElementsByClassName("closing-button");
 const backButton = document.getElementById("back-button");
 const modale = document.getElementById("modale");
@@ -16,18 +16,19 @@ const form = document.getElementById("add-photo-form");
 const formButton = document.getElementById("submit-photo");
 const gallery = document.getElementById("gallery");
 const editGallery = document.getElementById("photos-container");
+const maxSize = 4194304;
+const blurFilter = "blur(1px) saturate(0.6)";
 
 const toggleDisplayModale = () => {
-    if(modale.style.display === "flex"){
-        modale.style.display = "none";
-        deleteElem.style.display = "none";
-        addElem.style.display = "none";
+    if(!modale.classList.contains("hidden")){
+        modale.classList.add("hidden");
+        deleteElem.classList.add("hidden");
+        addElem.classList.add("hidden");
         resetImageInputForm();
     }
     else{
-        modale.style.display = "flex";
-        deleteElem.style.display = "flex";
-        addElem.style.display = "none";
+        modale.classList.remove("hidden");
+        deleteElem.classList.remove("hidden");
     }
 }
 
@@ -59,11 +60,11 @@ const updateWorks = async (id) => {
             cancelButton.src = "./assets/icons/close-button.svg";
             cancelButton.alt = "Annuler";
             cancelButton.setAttribute("apiid", element.id);
-            cancelButton.classList.add("delete-cancel", "delete-verification");
+            cancelButton.classList.add("delete-cancel", "delete-verification", "hidden");
             confirmButton.src = "./assets/icons/checked-checkbox.svg";
             confirmButton.alt = "Supprimer";
             confirmButton.setAttribute("apiid", element.id);
-            confirmButton.classList.add("delete-confirm",  "delete-verification");
+            confirmButton.classList.add("delete-confirm",  "delete-verification", "hidden");
             editImage.src = element.imageUrl;
             editImage.alt = element.title;
             editImageContainer.setAttribute("apiid", element.id);
@@ -73,15 +74,15 @@ const updateWorks = async (id) => {
             editImageContainer.appendChild(confirmButton);
             editGallery.appendChild(editImageContainer);
             deleteButton.addEventListener("click", () => {
-                deleteButton.style.display = "none";
-                cancelButton.style.display = "block";
-                confirmButton.style.display = "block";
-                editImage.style.filter = "blur(1px) saturate(0.7)";
+                deleteButton.classList.add("hidden");
+                cancelButton.classList.remove("hidden");
+                confirmButton.classList.remove("hidden");
+                editImage.style.filter = blurFilter;
             })
             cancelButton.addEventListener("click", () => {
-                deleteButton.style.display = "block";
-                cancelButton.style.display = "none";
-                confirmButton.style.display = "none";
+                deleteButton.classList.remove("hidden");
+                cancelButton.classList.add("hidden");
+                confirmButton.classList.add("hidden");
             })
             confirmButton.addEventListener("click", async () => {
                 const response = await deleteItems(window.localStorage.getItem("token"), element.id);
@@ -98,12 +99,12 @@ const updateWorks = async (id) => {
 
 export const toggleModale = () => {
     Array.from(editElements).forEach(element => {
-        element.style.display = "flex";
+        element.classList.remove("hidden");
         element.addEventListener("click", toggleDisplayModale);
     });
     backButton.addEventListener("click", () => {
-        deleteElem.style.display = "flex";
-        addElem.style.display = "none";
+        deleteElem.classList.remove("hidden");
+        addElem.classList.add("hidden");
         resetImageInputForm();
     })
     Array.from(closingButtons).forEach(element => {
@@ -115,8 +116,8 @@ export const toggleModale = () => {
         }
     });
     changePage.addEventListener("click", () => {
-        deleteElem.style.display = "none";
-        addElem.style.display = "flex";
+        deleteElem.classList.add("hidden");
+        addElem.classList.remove("hidden");
     });
 }
 
@@ -137,11 +138,11 @@ export const deletableWorks = (works) => {
         cancelButton.src = "./assets/icons/close-button.svg";
         cancelButton.alt = "Annuler";
         cancelButton.setAttribute("apiid", element.id);
-        cancelButton.classList.add("delete-cancel", "delete-verification");
+        cancelButton.classList.add("delete-cancel", "delete-verification", "hidden");
         confirmButton.src = "./assets/icons/checked-checkbox.svg";
         confirmButton.alt = "Supprimer";
         confirmButton.setAttribute("apiid", element.id);
-        confirmButton.classList.add("delete-confirm",  "delete-verification");
+        confirmButton.classList.add("delete-confirm",  "delete-verification", "hidden");
         editImage.src = element.imageUrl;
         editImage.alt = element.title;
         editImageContainer.setAttribute("apiid", element.id);
@@ -151,15 +152,15 @@ export const deletableWorks = (works) => {
         editImageContainer.appendChild(confirmButton);
         editGallery.appendChild(editImageContainer);
         deleteButton.addEventListener("click", () => {
-            deleteButton.style.display = "none";
-            cancelButton.style.display = "block";
-            confirmButton.style.display = "block";
-            editImage.style.filter = "blur(1px) saturate(0.7)";
+            deleteButton.classList.add("hidden");
+            cancelButton.classList.remove("hidden");
+            confirmButton.classList.remove("hidden");
+            editImage.style.filter = blurFilter;
         })
         cancelButton.addEventListener("click", () => {
-            deleteButton.style.display = "block";
-            cancelButton.style.display = "none";
-            confirmButton.style.display = "none";
+            deleteButton.classList.remove("hidden");
+            cancelButton.classList.add("hidden");
+            confirmButton.classList.add("hidden");
             editImage.style.filter = "";
         })
         confirmButton.addEventListener("click", async () => {
@@ -191,7 +192,7 @@ export const setCategoriesSelect = async () => {
 export const setModaleForm = () => {
     fileInput.addEventListener("change", (event) => {
         const file = event.target.files[0];
-        if(file.size > 4194304){
+        if(file.size > maxSize){
             triggerToast("Taille de fichier trop élevée");
         }
         else{
@@ -214,7 +215,7 @@ const checkFilled = () => {
     const inputs = document.querySelectorAll("#add-photo-form *[required]");
     const formIsValid = Array.from(inputs).every(input => input.checkValidity());
     const fileInput = document.getElementById("photo-import").files[0];
-    const fileIsValid = fileInput ? fileInput.size <= 4194304 : false;
+    const fileIsValid = fileInput ? fileInput.size <= maxSize : false;
     if(formIsValid && fileIsValid){
         formButton.disabled = false;
         formButton.classList.remove("disabled-add-photo");

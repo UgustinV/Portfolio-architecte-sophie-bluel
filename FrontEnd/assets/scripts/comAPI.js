@@ -1,8 +1,9 @@
 import { triggerToast } from "./toast.js";
+const route = "http://localhost:5678/api/";
 
 export const getItems = async (type) => {
     try{
-        const response = await fetch("http://localhost:5678/api/" + type, {
+        const response = await fetch(route + type, {
             method : 'GET',
             headers : {'accept' : 'application/json'}
         });
@@ -17,13 +18,13 @@ export const getItems = async (type) => {
     }
     catch(error){
         console.error("Error while fetching data : ", error);
-        triggerToast("Error while fetching data");
+        triggerToast("Erreur de récupération des données");
     }
 }
 
 export const getToken = async (email, password) => {
     try{
-        const response = await fetch("http://localhost:5678/api/users/login", {
+        const response = await fetch(route + "users/login", {
             method : 'POST',
             headers : {
                 'accept' : 'application/json',
@@ -36,13 +37,13 @@ export const getToken = async (email, password) => {
     }
     catch(error) {
         console.error("Error while getting token : ", error);
-        triggerToast("Error while getting token");
+        triggerToast("Erreur d'optention du token");
     }
 }
 
 export const deleteItems = async (token, id) => {
     try{
-        const response = await fetch("http://localhost:5678/api/works/" + id, {
+        const response = await fetch(route + "works/" + id, {
             method : 'DELETE',
             headers : {
                 'accept' : 'application/json',
@@ -55,13 +56,13 @@ export const deleteItems = async (token, id) => {
     }
     catch(error) {
         console.error("Error while deleting item : ", error);
-        triggerToast("Error while deleting item");
+        triggerToast("Erreur de suppression de la photo");
     }
 }
 
 export const addWork = async (token, formData) => {
     try{
-        const response = await fetch("http://localhost:5678/api/works/", {
+        const response = await fetch(route + "works/", {
             method : 'POST',
             headers : {
                 'accept' : 'application/json',
@@ -73,7 +74,7 @@ export const addWork = async (token, formData) => {
     }
     catch(error) {
         console.error("Error while adding item : ", error);
-        triggerToast("Error while adding item");
+        triggerToast("Erreur d'ajout de la photo");
     }
 }
 

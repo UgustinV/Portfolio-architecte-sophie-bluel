@@ -4,7 +4,7 @@ import { deletableWorks, setCategoriesSelect, toggleModale, setModaleForm } from
 const gallery = document.getElementById("gallery");
 const filtersContainer = document.getElementsByClassName("portfolio-head-filters");
 const filters = document.getElementsByClassName("filter");
-const editElements = document.getElementsByClassName("toggle-edit");
+const editElements = document.getElementsByClassName("editing-mode");
 const categoriesOptions = document.querySelector("#add-photo-form select");
 const logInOutButton = document.querySelector("ul li:nth-of-type(3) a");
 
@@ -59,10 +59,10 @@ const changeFilter = async (type) => {
     const works = gallery.children;
     Array.from(works).forEach(work => {
         if(type !== "0" && work.getAttribute("category") !== type){
-            work.style.display = "none";
+            work.classList.add("hidden");
         }
         else{
-            work.style.display = "";
+            work.classList.remove("hidden");
         }
     });
     Array.from(filters).forEach(filter => {
@@ -97,7 +97,7 @@ const toggleEditing = () => {
     }
     else {
         Array.from(editElements).forEach(element => {
-            element.style.display = "none";
+            element.classList.add("hidden");
         });
     }
 }
